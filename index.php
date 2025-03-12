@@ -43,14 +43,16 @@ usort($items, function($a, $b) {
 
 // Die letzten drei Meldungen ausgeben
 
-$obj = array( "body" => "" );
+$obj = array( "title" => "", "body" => "" );
 
 $latest_items = array_slice($items, 0, 3);
 $i = 1;
 $str = "";
 foreach ($latest_items as $item) {
 
-    $str .= $i .". " .$item[ "title" ] ."<br>";
+    $dt = new DateTime();
+    $dt->setTimestamp( $item[ "pubDate" ] );
+    $str .= $i .". " .$item[ "title" ] . " (" .$dt->format( 'H:i' ) .")<br>";
     $i++;
 
 }
