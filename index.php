@@ -48,17 +48,18 @@ $obj = array( "title" => "", "body" => "" );
 $latest_items = array_slice($items, 0, 3);
 $i = 1;
 $str = "";
+$tmp = array();
 foreach ($latest_items as $item) {
 
     $dt = new DateTime();
     $dt->setTimezone(new DateTimeZone('Europe/Berlin'));
     $dt->setTimestamp( $item[ "pubDate" ] );
-    $str .= $item[ "title" ] . " (" .$dt->format( 'H:i' ) .")<br><br>";
+    $tmp[] = $item[ "title" ] . " (" .$dt->format( 'H:i' ) .")<br><br>";
     $i++;
 
 }
 
-$obj[ "body" ] = $str;
+$obj[ "body" ] = implode( "<br><br>", $tmp );
 echo json_encode( $obj );
 ?>
 
