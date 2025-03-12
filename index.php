@@ -19,8 +19,43 @@ if( !isset( $_REQUEST[ "apiKey" ] ) || $_REQUEST[ "apiKey" ] != $uuid ) {
 }
 
 
-$obj = array( "title" => "Test", "body" => "Das ist ein Test" );
+// URL des RSS-Feeds
+$rss_url = 'https://www.tagesschau.de/infoservices/alle-meldungen-100~rss2.xml';
 
+// RSS-Feed laden
+$rss = simplexml_load_file($rss_url);
+
+// Meldungen in ein Array speichern
+$items = [];
+foreach ($rss->channel->item as $item) {
+    $items[] = [
+        'title' => (string) $item->title,
+        'link' => (string) $item->link,
+        'pubDate' => strtotime((string) $item->pubDate),
+        'description' => $item->description
+    ];
+}
+
+// Meldungen nach Datum absteigend sortieren
+usort($items, function($a, $b) {
+    return $b['pubDate'] - $a['pubDate'];
+});
+
+// Die letzten drei Meldungen ausgeben
+
+$obj = array( "body" => "" );
+
+$latest_items = array_slice($items, 0, 3);
+$i = 1;
+$str = "";
+foreach ($latest_items as $item) {
+
+    $str .= $i .". " .$item[ "title" ] ."<br>";
+    $i++;
+
+}
+
+$obj[ "body" ] = $str;
 echo json_encode( $obj );
 ?>
 
