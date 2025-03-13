@@ -54,7 +54,7 @@ foreach ($latest_items as $item) {
     $dt = new DateTime();
     $dt->setTimezone(new DateTimeZone('Europe/Berlin'));
     $dt->setTimestamp( $item[ "pubDate" ] );
-    $tmp[] = "**" .$item[ "title" ] ."**<br><small>" .$item[ "description" ] . "</small> (" .$dt->format( 'H:i' ) .")";
+    $tmp[] = "**" .$item[ "title" ] ."**<br><small>" .$item[ "description" ] . " (" .$dt->format( 'H:i' ) .")</small>";
     $i++;
 
 }
